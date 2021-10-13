@@ -1,0 +1,83 @@
+﻿create database qlCongViec
+use qlCongViec
+go
+create table PHONGBAN
+(
+	MAPB char(10),
+	TENPB nvarchar(50)
+	CONSTRAINT [PK_phongban] PRIMARY KEY(MAPB)
+)
+GO
+create table NHANVIEN
+(
+	MANV char(10),
+	TENNV nvarchar(50),
+	MAPB char(10),
+	CHUCVU nvarchar(50),
+	DIACHI nvarchar(50),
+	DIENTHOAI int,
+	LUONGCB int,
+	CONSTRAINT [PK_nhanvien] PRIMARY KEY(MANV)
+)
+GO
+create table THEODOILAMVIEC
+(
+	MANV char(10) NOT NULL,
+	MAPB char(10) NOT NULL,
+	MACV char(10),
+	NGAYCONG int,
+	LUONGLANH INT,
+	CONSTRAINT [PK_THEODOILAMVIEC] PRIMARY KEY(MANV,MAPB)
+)
+GO
+create table CONGVIEC
+(
+	MACV char(10),
+	TENCV nvarchar(50),
+	THOIGIANTHUCHIEN INT
+	CONSTRAINT [PK_CONGVIEC] PRIMARY KEY (MACV),
+)
+go
+ALTER TABLE [THEODOILAMVIEC] WITH NOCHECK ADD CONSTRAINT [FK_THEODOILAMVIEC_CONGVIEC]
+FOREIGN KEY([MACV])
+REFERENCES [CONGVIEC] ([MACV])
+ALTER TABLE [THEODOILAMVIEC] WITH CHECK ADD CONSTRAINT
+[FK_THEODOILAMVIEC_NHANVIEN] FOREIGN KEY([MANV])
+REFERENCES [NHANVIEN] ([MANV])
+ALTER TABLE [NHANVIEN] WITH NOCHECK ADD CONSTRAINT [FK_NHANVIEN_PHONGBAN]
+FOREIGN KEY([MAPB])
+REFERENCES [PHONGBAN] ([MAPB])
+
+--NHÂN VIÊN--
+insert into NHANVIEN values('N001',N'LÊ HUỲNH HOA','GD','GD',N'SÀI GÒN','0908640640','400000')
+insert into NHANVIEN values('N002',N'NGUYỄN THANH PHƯƠNG','KT','PP',N'TIỀN GIANG','0903232111','300000')
+insert into NHANVIEN values('N003',N'TRẦN THỊ LOAN','TT','NV',N'ĐỒNG NAI','0908640640','100000')
+insert into NHANVIEN values('N004',N'NGUYỄN MINH HƯNG','KH','TP',N'LONG AN','0906641640','200000')
+insert into NHANVIEN values('N005',N'VÕ HƯƠNG GIANG','KT','TP',N'BẾN TRE','0908641000','400000')
+
+--THEO DÕI LÀM VIỆC--
+insert into THEODOILAMVIEC values('N001','GD','CV1',25,10000000)
+insert into THEODOILAMVIEC values('N002','KT','CV2',24,7200000)
+insert into THEODOILAMVIEC values('N003','TT','CV6',26,26000000)
+insert into THEODOILAMVIEC values('N004','KH','CV4',25,5000000)
+insert into THEODOILAMVIEC values('N005','KT','CV9',24,4800000)
+
+---------PHÒNG BAN---------
+insert into PHONGBAN values('BV',N'PHÒNG BẢO VỆ')
+insert into PHONGBAN values('GD',N'PHÒNG GIÁM ĐỐC')
+insert into PHONGBAN values('KD',N'PHÒNG KINH DOANH')
+insert into PHONGBAN values('KH',N'PHÒNG KẾ HOACJ')
+insert into PHONGBAN values('KT',N'PHÒNG KẾ TOÁN')
+insert into PHONGBAN values('NS',N'PHÒNG NHÂN SỰ')
+insert into PHONGBAN values('PSX',N'PHÒNG SẢN XUẤT')
+insert into PHONGBAN values('TT',N'PHÒNG TUYÊN TRUYỀN')
+--CÔNG VIỆC--
+insert into CONGVIEC values('CV1',N'KÝ HỢP ĐỒNG THI CÔNG XD TÒA NHÀ 50 TẦNG Q1',1)
+insert into CONGVIEC values('CV2',N'THANH LÝ CÔNG TRÌNH CẦU AN HÓA',2)
+insert into CONGVIEC values('CV3',N'ĐI CẢNG SÀI GÒN NHẬP LÔ SẮT 2 TẤN',1)
+insert into CONGVIEC values('CV4',N'BÁO CÁO TIẾN ĐỘ XÂY DỰNG CHUNG CƯ AN BÌNH 2',1)
+insert into CONGVIEC values('CV5',N'ĐI NHÀ BÈ LẬP LÔ XI MĂNG HT2',2)
+insert into CONGVIEC values('CV6',N'VIẾT BÁO CÁO NGHIỆM THU 1',1)
+insert into CONGVIEC values('CV7',N'LẬP BẢNG LƯƠNG THÁNG 7',2)
+insert into CONGVIEC values('CV8',N'ĐI NGÂN HÀNG',1)
+insert into CONGVIEC values('CV9',N'ĐI KHẢO SÁT THỊ TRƯỜNG MIỀN TRUNG',3)
